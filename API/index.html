@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API PostgreSQL APP</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <h1 class="text-center">API PostgreSQL APP</h1>
+        <hr>
+        <div id="alert-message"></div>
+        <form id="create-form">
+          <div class="form-group">
+            <label for="input-id">ID:</label>
+            <input type="text" class="form-control" id="input-id" name="id">
+          </div>
+          <div class="form-group">
+            <label for="input-value">Value:</label>
+            <input type="text" class="form-control" id="input-value" name="input">
+          </div>
+          <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+        <br>
+        <form id="update-form">
+          <div class="form-group">
+            <label for="update-id">ID:</label>
+            <input type="text" class="form-control" id="update-id" name="id">
+          </div>
+          <div class="form-group">
+            <label for="update-value">Value:</label>
+            <input type="text" class="form-control" id="update-value" name="input">
+          </div>
+          <button type="submit" class="btn btn-success">Update</button>
+        </form>
+        <br>
+        <form id="search-form">
+          <div class="form-group">
+            <label for="search-id">NAME:</label>
+            <input type="text" class="form-control" id="search-id" name="id">
+          </div>
+          <button type="submit" class="btn btn-dark">Search</button>
+        </form>
+        <br>
+        <form id="delete-form">
+          <div class="form-group">
+            <label for="delete-id">ID:</label>
+            <input type="text" class="form-control" id="delete-id" name="id">
+          </div>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+        <hr>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="input-list"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script src="client.js"></script>
+</body>
+</html>

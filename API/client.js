@@ -16,37 +16,52 @@ function clearInputFields() {
   document.getElementById("delete-id").value = "";
 }
 
+
 // Function to create an input
 async function addInput() {
-    const inputId = document.getElementById("input-id").value;
-    const inputValue = document.getElementById("input-value").value;
-    
-    if (!inputId || !inputValue) {
-      displayAlert("Please enter both ID and value", "danger");
-      return;
+  const inputId = document.getElementById("input-id").value;
+  const inputValue = document.getElementById("input-value").value;
+  
+  if (!inputId || !inputValue) {
+    displayAlert("Please enter both ID and value", "danger");
+    return;
+  }
+
+  if (!Number.isInteger(parseInt(inputId)) ) {
+    displayAlert("Input ID should be an integer", "danger");
+    return;
+  }a
+  
+  try {
+    const response = await fetch(`${baseUrl}/inputs`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: inputId,
+        input: inputValue
+      })
+    });
+    if (response.status === 400) {
+      displayAlert("There is already an input with this ID. Please use a different ID.", "danger");
     }
-    
-    try {
-      const response = await fetch(`${baseUrl}/inputs`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          id: inputId,
-          input: inputValue
-        })
-      });
+    else if (!response.ok) {
+      const error = await response.json();
+      displayAlert(error.message, "danger");
+    } else {
       const data = await response.json();
       if (data.message) {
         displayAlert(data.message, "success");
         clearInputFields();
         getInputs();
       }
-    } catch (err) {
-      displayAlert("An error occurred", "danger");
     }
+  } catch (err) {
+    displayAlert("An error occurred", "danger");
   }
+}
+
 
   
 
@@ -88,13 +103,23 @@ async function searchInput() {
   
   try {
     const response = await fetch(`${baseUrl}/inputs/${inputValue}`);
-    const data = await response.json();
-    renderInputs(data);
+    if (!response.ok) {
+        if(response.status === 400) {
+            displayAlert("No input found with this name", "danger");
+        } else {
+            const error = await response.json();
+            displayAlert(error.message, "danger");
+        }
+    } else {
+        const data = await response.json();
+        renderInputs(data);
+    }
   } catch (err) {
     console.log(err);
     displayAlert("An error occurred", "danger");
   }
 }
+
   
 function renderInputs(data) {
   const inputList = document.getElementById("input-list");
@@ -115,57 +140,82 @@ function renderInputs(data) {
 
 // Function to update an input
 async function updateInput() {
-    const inputId = document.getElementById("update-id").value;
-    const inputValue = document.getElementById("update-value").value;
-    
-    if (!inputId || !inputValue) {
-      displayAlert("Please enter both ID and value", "danger");
-      return;
-    }
-    
-    try {
-      const response = await fetch(`${baseUrl}/inputs/${inputId}`, {
-        method: "PUT",
-        body: JSON.stringify({ id: inputId, input: inputValue }),
-        headers: { "Content-Type": "application/json" }
-      });
+  const inputId = document.getElementById("update-id").value;
+  const inputValue = document.getElementById("update-value").value;
+  
+  if (!inputId || !inputValue) {
+    displayAlert("Please enter both ID and value", "danger");
+    return;
+  }
+
+  if (!Number.isInteger(parseInt(inputId)) ) {
+    displayAlert("Input ID should be an integer", "danger");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${baseUrl}/inputs/${inputId}`, {
+      method: "PUT",
+      body: JSON.stringify({ id: inputId, input: inputValue }),
+      headers: { "Content-Type": "application/json" }
+    });
+    if (!response.ok) {
+      if (response.status === 400) {
+          displayAlert("No input found with this ID", "danger");
+      } else {
+          const error = await response.json();
+          displayAlert(error.message, "danger");
+      }
+    } else {
       const data = await response.json();
       if (data.message) {
         displayAlert(data.message, "success");
         clearInputFields();
         getInputs();
       }
-    } catch (err) {
-      displayAlert("An error occurred", "danger");
     }
+  } catch (err) {
+    displayAlert("An error occurred", "danger");
   }
-  
-  
-  
+}
+
 
 // Function to delete an input
 async function deleteInput() {
-    const inputId = document.getElementById("delete-id").value;
-    
-    if (!inputId) {
-      displayAlert("Please enter an ID", "danger");
+  const inputId = document.getElementById("delete-id").value;
+  
+  if (!inputId) {
+    displayAlert("Please enter an ID", "danger");
+    return;
+  }
+
+  if (!Number.isInteger(parseInt(inputId)) ) {
+      displayAlert("Input ID should be an integer", "danger");
       return;
-    }
-    
-    try {
+  }
+
+  try {
       const response = await fetch(`${baseUrl}/inputs/${inputId}`, {
         method: "DELETE",
       });
+      if (!response.ok) {
+          if (response.status === 400) {
+              displayAlert("No input found with this ID", "danger");
+              return;
+          }
+      }
       const data = await response.json();
       if (data.message) {
         displayAlert(data.message, "success");
         clearInputFields();
         getInputs();
       }
-    } catch (err) {
-      displayAlert("An error occurred", "danger");
-    }
+  } catch (err) {
+    displayAlert("An error occurred", "danger");
   }
+}
+
+
   
   
 

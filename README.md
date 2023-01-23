@@ -14,7 +14,7 @@ Flask Method
 
 To run the app using the Flask method, navigate to the directory containing the app in your command line and run the following command:
 
-python flask.py
+python flask_app.py
 
 The app will then be available at http://localhost:5000.
 

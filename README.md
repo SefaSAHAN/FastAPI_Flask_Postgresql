@@ -4,7 +4,9 @@ Welcome to my GitHub repository for my app. This repository contains the code fo
 
 Getting Started
 
-To set up the app, you will need to have Python and PostgreSQL installed on your machine. You will also need to create a database and set up the appropriate tables. The db.py file in this repository contains the code to create the necessary tables.
+To set up the app, you will need to have Python and PostgreSQL installed on your machine.
+You will also need to create a database and set up the appropriate tables. 
+The db.py file in this repository contains the code to create the necessary tables.
 
 Please run the db.py file and enter your own username and password for the PostgreSQL database.
 
@@ -12,7 +14,7 @@ Flask Method
 
 To run the app using the Flask method, navigate to the directory containing the app in your command line and run the following command:
 
-python flask.py
+python flask_app.py
 
 The app will then be available at http://localhost:5000.
 
